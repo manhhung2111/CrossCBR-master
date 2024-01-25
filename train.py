@@ -220,7 +220,6 @@ def log_metrics(conf, model, metrics, run, log_path, checkpoint_model_path, chec
         ((metrics["val"]["recall"][topk_] >= best_metrics["val"]["recall"][topk_]) and
          (metrics["val"]["ndcg"][topk_] > best_metrics["val"]["ndcg"][topk_])):
 
-        model.save_asymetric_matrix()
         torch.save(model.state_dict(), checkpoint_model_path)
         dump_conf = dict(conf)
         del dump_conf["device"]
