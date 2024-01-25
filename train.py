@@ -133,8 +133,7 @@ def main():
         for epoch in range(conf['epochs']):
             epoch_anchor = epoch * batch_cnt
             model.train(True)
-            pbar = tqdm(enumerate(dataset.train_loader),
-                        total=len(dataset.train_loader))
+            pbar = tqdm(enumerate(dataset.train_loader), total=len(dataset.train_loader))
 
             for batch_i, batch in pbar:
                 model.train(True)
@@ -145,24 +144,25 @@ def main():
                 ED_drop = False
                 if conf["aug_type"] == "ED" and (batch_anchor+1) % ed_interval_bs == 0:
                     ED_drop = True
-                bpr_loss = model(batch, ED_drop=ED_drop)
-                loss = bpr_loss
+                bpr_loss, c_loss = model(batch, ED_drop=ED_drop)
+                loss = bpr_loss + conf["c_lambda"] * c_loss
                 loss.backward()
                 optimizer.step()
 
                 loss_scalar = loss.detach()
                 bpr_loss_scalar = bpr_loss.detach()
+                c_loss_scalar = c_loss.detach()
                 run.add_scalar("loss_bpr", bpr_loss_scalar, batch_anchor)
+                run.add_scalar("loss_c", c_loss_scalar, batch_anchor)
+                run.add_scalar("loss", loss_scalar, batch_anchor)
 
-                pbar.set_description("epoch: %d, loss: %.4f, bpr_loss: %.4f" % (
-                    epoch, loss_scalar, bpr_loss_scalar))
+                pbar.set_description("epoch: %d, loss: %.4f, bpr_loss: %.4f, c_loss: %.4f" %(epoch, loss_scalar, bpr_loss_scalar, c_loss_scalar))
 
-            if epoch % conf["test_interval"] == 0:
-                metrics = {}
-                metrics["val"] = test(model, dataset.val_loader, conf)
-                metrics["test"] = test(model, dataset.test_loader, conf)
-                best_metrics, best_perform, best_epoch = log_metrics(
-                    conf, model, metrics, run, log_path, checkpoint_model_path, checkpoint_conf_path, epoch, batch_anchor, best_metrics, best_perform, best_epoch)
+                if (batch_anchor+1) % test_interval_bs == 0:  
+                    metrics = {}
+                    metrics["val"] = test(model, dataset.val_loader, conf)
+                    metrics["test"] = test(model, dataset.test_loader, conf)
+                    best_metrics, best_perform, best_epoch = log_metrics(conf, model, metrics, run, log_path, checkpoint_model_path, checkpoint_conf_path, epoch, batch_anchor, best_metrics, best_perform, best_epoch)
 
 
 def init_best_metrics(conf):
