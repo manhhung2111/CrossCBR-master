@@ -1,10 +1,10 @@
 Youshu:
-  data_path: './datasets'
+  data_path: "./datasets"
   batch_size_train: 2048 # the batch size for training
   batch_size_test: 2048 # the batch size for testing
   topk: [10, 20, 40, 80] # the topks metrics for evaluation
   neg_num: 1 # number of negatives used for BPR loss. All the experiments use 1.
-  
+
   # search hyperparameters
   # the following are the best settings
   aug_type: "ED" # options: ED, MD, OP
@@ -25,9 +25,8 @@ Youshu:
   epochs: 100 # number of epochs to train
   test_interval: 5 # by how many epochs to run the validation and testing.
 
-
 NetEase:
-  data_path: './datasets'
+  data_path: "./datasets"
   batch_size_train: 2048
   batch_size_test: 2048
   topk: [10, 20, 40, 80]
@@ -50,9 +49,8 @@ NetEase:
   epochs: 50
   test_interval: 5
 
-
 iFashion:
-  data_path: './datasets'
+  data_path: "./datasets"
   batch_size_train: 2048
   batch_size_test: 2048
   topk: [10, 20, 40, 80]
@@ -73,23 +71,27 @@ iFashion:
   c_temps: [0.2]
 
   epochs: 50
-  test_interval: 5 
+  test_interval: 5
 
 clothing:
-  data_path: './datasets'
+  data_path: "./datasets"
   batch_size_train: 128
   batch_size_test: 128
   topk: [1, 2, 3, 4, 5]
   neg_num: 1
+
   aug_type: "ED"
   ed_interval: 1
   embedding_sizes: [64]
   num_layerss: [1]
-  item_level_ratios: [0.2] 
+  item_level_ratios: [0.2]
   bundle_level_ratios: [0.2]
-  bundle_agg_ratios: [0.2] 
+  bundle_agg_ratios: [0.2]
   lrs: [1.0e-3]
   l2_regs: [1.0e-4]
+
+  c_lambdas: [0.01]
+  c_temps: [0.25]
   epochs: 50
   test_interval: 5
   sep: "\t"
@@ -98,10 +100,9 @@ clothing:
   self_loop: True
   nhead: 2
   topk_valid: 3
-
 
 electronic:
-  data_path: './datasets'
+  data_path: "./datasets"
   batch_size_train: 128
   batch_size_test: 128
   topk: [1, 2, 3, 4, 5]
@@ -110,11 +111,13 @@ electronic:
   ed_interval: 1
   embedding_sizes: [64]
   num_layerss: [1]
-  item_level_ratios: [0.2] 
+  item_level_ratios: [0.2]
   bundle_level_ratios: [0.2]
-  bundle_agg_ratios: [0.2] 
+  bundle_agg_ratios: [0.2]
   lrs: [1.0e-3]
   l2_regs: [1.0e-4]
+  c_lambdas: [0.01]
+  c_temps: [0.25]
   epochs: 50
   test_interval: 5
   sep: "\t"
@@ -124,9 +127,8 @@ electronic:
   nhead: 2
   topk_valid: 3
 
-
 food:
-  data_path: './datasets'
+  data_path: "./datasets"
   batch_size_train: 128
   batch_size_test: 128
   topk: [1, 2, 3, 4, 5]
@@ -135,11 +137,13 @@ food:
   ed_interval: 1
   embedding_sizes: [64]
   num_layerss: [1]
-  item_level_ratios: [0.2] 
+  item_level_ratios: [0.2]
   bundle_level_ratios: [0.2]
-  bundle_agg_ratios: [0.2] 
+  bundle_agg_ratios: [0.2]
   lrs: [1.0e-3]
   l2_regs: [1.0e-4]
+  c_lambdas: [0.01]
+  c_temps: [0.25]
   epochs: 50
   test_interval: 5
   sep: "\t"
