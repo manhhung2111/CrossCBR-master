@@ -13,7 +13,7 @@ from torch.utils.tensorboard import SummaryWriter
 import torch
 import torch.optim as optim
 from utility import Datasets
-from models.ICCCI import ICCCI
+from models.CrossCBR import CrossCBR
 import numpy as np
 
 
@@ -22,7 +22,7 @@ def get_cmd():
     # experimental settings
     parser.add_argument("-g", "--gpu", default="0", type=str, help="which gpu to use")
     parser.add_argument("-d", "--dataset", default="clothing", type=str, help="which dataset to use, options: clothing, food, electronic")
-    parser.add_argument("-m", "--model", default="ICCCI", type=str, help="which model to use, options: ICCCI")
+    parser.add_argument("-m", "--model", default="CrossCBR", type=str, help="which model to use, options: CrossCBR")
     parser.add_argument("-i", "--info", default="", type=str, help="any auxilary info that will be appended to the log file name")
     parser.add_argument("-w1", "--uUB", default="1", type=float, help="weight of users in UB")
     parser.add_argument("-w2", "--bUB", default="1", type=float, help="weight of bundles in UB")
@@ -43,7 +43,7 @@ def main():
     paras = get_cmd().__dict__
     dataset_name = paras["dataset"]
 
-    assert paras["model"] in ["ICCCI"], "Pls select models from: ICCCI"
+    assert paras["model"] in ["CrossCBR"], "Pls select models from: CrossCBR"
 
     if "_" in dataset_name:
         conf = conf[dataset_name.split("_")[0]]
@@ -120,8 +120,8 @@ def main():
         run = SummaryWriter(run_path)
 
         # model
-        if conf['model'] == 'ICCCI':
-            model = ICCCI(conf, dataset.graphs).to(device)
+        if conf['model'] == 'CrossCBR':
+            model = CrossCBR(conf, dataset.graphs).to(device)
         else:
             raise ValueError("Unimplemented model %s" %(conf["model"]))
 
